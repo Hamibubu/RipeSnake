@@ -27,13 +27,13 @@ unsigned int mask = 0;
     int r = rand() % (matrixArea +1);      // Returns a pseudo-random integer between 0 and matrixArea.
     //Se genera la manzana
     //
+    //  . .     a a+1
     //  . .     r r+1
-    //  . .     s s+1
     //
     led_base = r;   //r
     led_base += 1 ; //r+1
-    led_base = r + LED_MATRIX_0_WIDTH;  //salto de linea "s"
-    led_base +=  1; //s+1
+    led_base = LED_MATRIX_0_WIDTH - r ;  //salto de linea atrás "a"
+    led_base +=  1; //a+1
 
 
 
