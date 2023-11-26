@@ -15,10 +15,11 @@
 #define LED_MATRIX_0_HEIGHT	(0x19)
 
 volatile unsigned int * led_base = (volatile unsigned int *)LED_MATRIX_0_BASE;
+//Inputs
 volatile unsigned int * d_pad_up = (volatile unsigned int *)D_PAD_0_UP;
-volatile unsigned int * d_pad_down = (volatile unsigned int *)D_PAD_0_DOWN;
-volatile unsigned int * d_pad_left = (volatile unsigned int *)D_PAD_0_LEFT;
-volatile unsigned int * d_pad_right = (volatile unsigned int *)D_PAD_0_RIGHT;
+volatile unsigned int * d_pad_do = (volatile unsigned int *)D_PAD_0_DOWN;
+volatile unsigned int * d_pad_le = (volatile unsigned int *)D_PAD_0_LEFT;
+volatile unsigned int * d_pad_ri = (volatile unsigned int *)D_PAD_0_RIGHT;
 volatile unsigned int * switch_base = (volatile unsigned int *)SWITCHES_0_BASE;
 
 #define MAX_SNAKE_SIZE (LED_MATRIX_0_WIDTH * LED_MATRIX_0_HEIGHT)
@@ -28,8 +29,10 @@ int tail = 0;
 
 int size = 2;
 
+int new_head_index;
+
 int dx = 0;
-int dy = 0;
+int dy = 1;
 
 volatile unsigned int snakeLEDs[MAX_SNAKE_SIZE];
 
@@ -43,7 +46,15 @@ void initSnake() {
 }
 
 void moveSnake() {
-    int new_head_index = (snakeLEDs[head] + LED_MATRIX_0_WIDTH);
+    if (dy == 1) {
+        new_head_index = (snakeLEDs[head] + LED_MATRIX_0_WIDTH);
+    } else if (dy == -1) {
+        new_head_index = (snakeLEDs[head] - LED_MATRIX_0_WIDTH);
+    } else if (dx == 1) {
+        new_head_index = (snakeLEDs[head] + 1);
+    } else if (dx == -1) {
+        new_head_index = (snakeLEDs[head] -1);
+    }
     head = (head + 1) % MAX_SNAKE_SIZE;
     snakeLEDs[head] = new_head_index;
     *(led_base + new_head_index) = 0x00FF00;
@@ -63,9 +74,21 @@ void printlimits(int color) {
     }
 }
 
+void changeDirection(int dex, int dey) {
+    dx = dex;
+    dy = dey;
+}
+
 void main() {
     initSnake();
     while (1){
         moveSnake();
+        for (int i = 0; i < 100000; i++){
+            
+        }
+        if(*d_pad_up == 1) changeDirection(0, -1);
+        if(*d_pad_do == 1) changeDirection(0, 1);
+        if(*d_pad_le == 1) changeDirection(-1, 0);
+        if(*d_pad_ri == 1) changeDirection(1, 0); 
     }
 }
