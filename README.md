@@ -18,9 +18,10 @@ This game runs directly in the RIPES simulator, which handles the compilation of
 
 1. **Clone the Repository:**
 <br>
-   ```
-   git clone https://github.com/Hamibubu/RipeSnake.git
-   ```
+
+```
+git clone https://github.com/Hamibubu/RipeSnake.git
+```
    
 <h2 align="center">Downloading RIPES</h2>
 
