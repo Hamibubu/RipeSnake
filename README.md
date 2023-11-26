@@ -1,4 +1,4 @@
-<h1 align="center">RIPESNAKE</h1>
+<h1 align="center">RipeSnake</h1>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Hamibubu/RipeSnake/main/RipesExample.png" alt="Towers of Hanoi"/>
