@@ -43,12 +43,12 @@ void initSnake() {
 }
 
 void moveSnake() {
-    *(led_base + snakeLEDs[tail]) = 0x0;
-    tail = (tail + 1) % MAX_SNAKE_SIZE;
-    int new_head_index = (snakeLEDs[head] * LED_MATRIX_0_WIDTH + 1);
+    int new_head_index = (snakeLEDs[head] + LED_MATRIX_0_WIDTH);
     head = (head + 1) % MAX_SNAKE_SIZE;
     snakeLEDs[head] = new_head_index;
     *(led_base + new_head_index) = 0x00FF00;
+    *(led_base + snakeLEDs[tail]) = 0x0;
+    tail = (tail + 1) % MAX_SNAKE_SIZE;
 }
 
 void printlimits(int color) {
