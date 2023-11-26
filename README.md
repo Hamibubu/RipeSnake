@@ -17,6 +17,7 @@ Simple snake game on c.
 This game runs directly in the RIPES simulator, which handles the compilation of the C source code.
 
 1. **Clone the Repository:**
+
    ```sh
    git clone https://github.com/Hamibubu/RipeSnake.git
    ```
