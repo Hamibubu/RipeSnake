@@ -38,6 +38,11 @@ git clone https://github.com/Hamibubu/RipeSnake.git
 
 Use the dpad 
 
+<h2 align="center">To be considered</h2>
+
+Ripes is slow, very, very slooooow. 
+Dont lose patience of the slow movements and keep in mind that you must mash the dpad to register the inputs :)
+
 <br>
 <strong><p align="center">Abraham de León Gutiérrez & Luis Santiago Zamora Vargas</p></strong>
 <br>
