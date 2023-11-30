@@ -59,7 +59,8 @@ int moveSnake() {
     } else if (dx == -1) {
         new_head_index = (snakeLEDs[head] -1);
     }
-    if (*(led_base+new_head_index)==0xF9F6B9) {
+    //The game ends when in contact with the colors of the edges of the map or the snake itself
+    if (*(led_base+new_head_index)==0xF9F6B9 *(led_base+new_head_index)==0x00FF00) {
         return 0;
     } else if (*(led_base+new_head_index)==0xFF0000) {
         eatApple();
@@ -125,7 +126,7 @@ void main() {
     generateApple();
     while (game){
         game = moveSnake();
-        for (int i = 0; i < 70000; i++){
+        for (int i = 0; i < 10000; i++) {
             
         }
         if(*d_pad_up == 1) changeDirection(0, -1);
