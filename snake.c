@@ -106,8 +106,8 @@ void eatApple() {
 
 void generateApple() {
     int flag = 1;
-    randcounter += 5;
     while (flag){
+        randcounter += 5;
         srand(randcounter);
         int random_x = 2 + rand() % (LED_MATRIX_0_WIDTH -4);
         int random_y = 2 + rand() % (LED_MATRIX_0_HEIGHT -4);
