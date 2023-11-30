@@ -21,7 +21,7 @@ volatile unsigned int * d_pad_up = (volatile unsigned int *)D_PAD_0_UP;
 volatile unsigned int * d_pad_do = (volatile unsigned int *)D_PAD_0_DOWN;
 volatile unsigned int * d_pad_le = (volatile unsigned int *)D_PAD_0_LEFT;
 volatile unsigned int * d_pad_ri = (volatile unsigned int *)D_PAD_0_RIGHT;
-volatile unsigned int * switch_base = (volatile unsigned int *)SWITCHES_0_BASE;
+
 
 #define MAX_SNAKE_SIZE (LED_MATRIX_0_WIDTH * LED_MATRIX_0_HEIGHT)
 
@@ -60,7 +60,7 @@ int moveSnake() {
         new_head_index = (snakeLEDs[head] -1);
     }
     //The game ends when in contact with the colors of the edges of the map or the snake itself
-    if (*(led_base+new_head_index)==0xF9F6B9 *(led_base+new_head_index)==0x00FF00) {
+    if (*(led_base+new_head_index)==0xF9F6B9 || *(led_base+new_head_index)==0x00FF00 ) {
         return 0;
     } else if (*(led_base+new_head_index)==0xFF0000) {
         eatApple();
