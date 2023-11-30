@@ -11,10 +11,12 @@
 #define SW6 (0x40)
 #define SW7 (0x80)
 
+// Constantes de tamaños
 #define LED_MATRIX_0_SIZE	(0xdac)
 #define LED_MATRIX_0_WIDTH	(0x23)
 #define LED_MATRIX_0_HEIGHT	(0x19)
 
+// Apuntadores a diferentes partes importantesm base y dpad
 volatile unsigned int * led_base = (volatile unsigned int *)LED_MATRIX_0_BASE;
 
 volatile unsigned int * d_pad_up = (volatile unsigned int *)D_PAD_0_UP;
@@ -22,9 +24,10 @@ volatile unsigned int * d_pad_do = (volatile unsigned int *)D_PAD_0_DOWN;
 volatile unsigned int * d_pad_le = (volatile unsigned int *)D_PAD_0_LEFT;
 volatile unsigned int * d_pad_ri = (volatile unsigned int *)D_PAD_0_RIGHT;
 
-
+// Tamaño máximo
 #define MAX_SNAKE_SIZE (LED_MATRIX_0_WIDTH * LED_MATRIX_0_HEIGHT)
 
+// Variables iniciales
 int game = 1;
 int head = 1;
 int tail = 0;
@@ -38,6 +41,7 @@ int new_head_index;
 int dx = 0;
 int dy = 1;
 
+// Arreglo donde se guardan las head y tails
 volatile unsigned int snakeLEDs[MAX_SNAKE_SIZE];
 
 void initSnake() {
@@ -49,7 +53,9 @@ void initSnake() {
     snakeLEDs[head] = st2;
 }
 
+// Mover snake
 int moveSnake() {
+    // Verificar dirección
     if (dy == 1) {
         new_head_index = (snakeLEDs[head] + LED_MATRIX_0_WIDTH);
     } else if (dy == -1) {
@@ -59,22 +65,23 @@ int moveSnake() {
     } else if (dx == -1) {
         new_head_index = (snakeLEDs[head] -1);
     }
-    //The game ends when in contact with the colors of the edges of the map or the snake itself
+    // Colisiones para que acabe el juego
     if (*(led_base+new_head_index)==0xF9F6B9 || *(led_base+new_head_index)==0x00FF00 ) {
         return 0;
     } else if (*(led_base+new_head_index)==0xFF0000) {
-        eatApple();
+        eatApple();   // Colision con la manzana = comer
         generateApple();
         return 1;
-    }
-    head = (head + 1) % MAX_SNAKE_SIZE;
-    snakeLEDs[head] = new_head_index;
+    } // Nuevo espacio en array de la head
+    head = (head + 1) % MAX_SNAKE_SIZE; 
+    snakeLEDs[head] = new_head_index; // La guardamos en el array
     *(led_base + new_head_index) = 0x00FF00;
-    *(led_base + snakeLEDs[tail]) = 0x0;
-    tail = (tail + 1) % MAX_SNAKE_SIZE;
+    *(led_base + snakeLEDs[tail]) = 0x0; // Apagar tail
+    tail = (tail + 1) % MAX_SNAKE_SIZE; // Nuevo espacio de la tail
     return 1;
 }
 
+// Imprimir los bordes
 void printlimits(int color) {
     for (int i = 0; i < LED_MATRIX_0_WIDTH+1; i++)
     {
@@ -87,23 +94,27 @@ void printlimits(int color) {
     }
 }
 
+// Apagar todos los leds
 void cleanBoard() {
     for (int i = 0; i < MAX_SNAKE_SIZE; i++) {
         *(led_base+i) = 0x0;
     }
 }
 
+// Cambiar direcciones para la función moveSnake
 void changeDirection(int dex, int dey) {
     dx = dex;
     dy = dey;
 }
 
+// Que pasa al comer la manzana
 void eatApple() {
     head = (head + 1) % MAX_SNAKE_SIZE;
     snakeLEDs[head] = new_head_index;
     *(led_base + new_head_index) = 0x00FF00;
 }
 
+// Generar aleatoriamente la manzana
 void generateApple() {
     int flag = 1;
     while (flag){
@@ -129,6 +140,7 @@ void main() {
         for (int i = 0; i < 10000; i++) {
             
         }
+        // Movimientos del dpad
         if(*d_pad_up == 1) changeDirection(0, -1);
         if(*d_pad_do == 1) changeDirection(0, 1);
         if(*d_pad_le == 1) changeDirection(-1, 0);
